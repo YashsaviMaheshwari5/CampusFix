@@ -311,7 +311,12 @@ function App() {
 
     if (activePage === "settings") {
 
-      return <Settings />;
+      return (
+        <Settings
+          darkMode={darkMode}
+          onDarkModeChange={setDarkMode}
+        />
+      );
 
     }
 
