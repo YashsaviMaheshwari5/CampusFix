@@ -7,6 +7,7 @@ function Login({ onLogin }) {
   // STATES
   // ==========================================
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,6 +25,17 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     setError("");
+
+
+    // Check name
+
+    if (name.trim() === "") {
+
+      setError("Please enter your name.");
+
+      return;
+
+    }
 
 
     // Check email
@@ -54,8 +66,10 @@ function Login({ onLogin }) {
 
     const user = {
 
-      name: "Yashsavi Maheshwari",
+      // User-entered name
+      name: name.trim(),
 
+      // User-entered email
       email: email.trim()
 
     };
@@ -252,6 +266,26 @@ function Login({ onLogin }) {
           <form onSubmit={handleLogin}>
 
 
+            {/* NAME */}
+
+            <div className="form-group">
+
+              <label>
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
+              />
+
+            </div>
+
+
             {/* EMAIL */}
 
             <div className="form-group">
@@ -403,8 +437,8 @@ function Login({ onLogin }) {
 
             <p>
               This is a frontend demonstration.
-              Enter any email and password to
-              continue.
+              Enter your name, email and password
+              to continue.
             </p>
 
           </div>

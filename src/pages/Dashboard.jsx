@@ -5,6 +5,9 @@ function Dashboard({ complaints, onSelectComplaint }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
+  // Logged-in user's name
+  const userName = localStorage.getItem("userName") || "Student";
+
 
   // Search complaints
   const searchResults = complaints.filter((complaint) =>
@@ -78,7 +81,7 @@ function Dashboard({ complaints, onSelectComplaint }) {
           </span>
 
           <h1>
-            Welcome back! 👋
+            Welcome back, {userName}! 👋
           </h1>
 
           <p>
@@ -95,14 +98,25 @@ function Dashboard({ complaints, onSelectComplaint }) {
             🔔
           </div>
 
+
+          {/* Dynamic Avatar */}
           <div className="profile-avatar">
-            YM
+
+            {userName
+              .split(" ")
+              .map((word) => word[0])
+              .join("")
+              .toUpperCase()
+              .slice(0, 2)}
+
           </div>
+
 
           <div className="profile-info">
 
+            {/* Dynamic User Name */}
             <strong>
-              Yashsavi M.
+              {userName}
             </strong>
 
             <span>
@@ -355,6 +369,7 @@ function Dashboard({ complaints, onSelectComplaint }) {
               >
 
                 <div className="complaint-icon">
+
                   {complaint.category === "Internet"
                     ? "📶"
                     : complaint.category === "Electricity"
@@ -362,6 +377,7 @@ function Dashboard({ complaints, onSelectComplaint }) {
                     : complaint.category === "Water"
                     ? "💧"
                     : "🔧"}
+
                 </div>
 
 
