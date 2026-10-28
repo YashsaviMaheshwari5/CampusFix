@@ -1,4 +1,4 @@
-git statusimport { useState } from "react";
+import { useState } from "react";
 import universityLogo from "../assets/university-logo.png";
 import { authService } from "../services/authService";
 
@@ -15,7 +15,6 @@ function Login({ onLogin, initialError = "" }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [error, setError] = useState(initialError);
-  const [name, setName] = useState("");
   const [registering, setRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
 
