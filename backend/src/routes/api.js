@@ -1,0 +1,36 @@
+import { Router } from 'express';
+import mongoose from 'mongoose';
+import { register, login, me, logout, updatePreferences } from '../controllers/authController.js';
+import * as complaints from '../controllers/complaintController.js';
+import { stats, notifications, readNotification, readAllNotifications, createFeedback, feedbackList } from '../controllers/otherController.js';
+import { requireAuth, allowRoles } from '../middleware/auth.js';
+import { complaintImages } from '../middleware/upload.js';
+import { AppError } from '../utils/AppError.js';
+
+const router = Router();
+const asyncRoute = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
+const statusUpdateBody = (req, _res, next) => {
+  const keys = Object.keys(req.body || {});
+  if (typeof req.body?.status !== 'string' || keys.some((key) => !['status', 'note'].includes(key))) return next(new AppError('Provide only a status and optional note.', 400, 'VALIDATION_ERROR'));
+  next();
+};
+router.get('/health', (_req, res) => res.json({ success: true, data: { status: 'ok', database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected' } }));
+router.post('/auth/register', asyncRoute(register));
+router.post('/auth/login', asyncRoute(login));
+router.get('/auth/me', requireAuth, asyncRoute(me));
+router.patch('/auth/preferences', requireAuth, asyncRoute(updatePreferences));
+router.post('/auth/logout', requireAuth, asyncRoute(logout));
+router.get('/complaints', requireAuth, asyncRoute(complaints.list));
+router.get('/complaints/:id/attachments/:filename', requireAuth, asyncRoute(complaints.getAttachment));
+router.get('/complaints/:id', requireAuth, asyncRoute(complaints.getOne));
+router.post('/complaints', requireAuth, complaintImages, asyncRoute(complaints.create));
+router.patch('/complaints/:id', requireAuth, asyncRoute(complaints.update));
+router.delete('/complaints/:id', requireAuth, asyncRoute(complaints.remove));
+router.get('/dashboard/stats', requireAuth, asyncRoute(stats));
+router.get('/notifications', requireAuth, asyncRoute(notifications));
+router.patch('/notifications/:id/read', requireAuth, asyncRoute(readNotification));
+router.patch('/notifications/read-all', requireAuth, asyncRoute(readAllNotifications));
+router.get('/feedback', requireAuth, asyncRoute(feedbackList));
+router.post('/feedback', requireAuth, asyncRoute(createFeedback));
+router.patch('/staff/complaints/:id/status', requireAuth, allowRoles('staff', 'admin'), statusUpdateBody, asyncRoute(complaints.update));
+export default router;

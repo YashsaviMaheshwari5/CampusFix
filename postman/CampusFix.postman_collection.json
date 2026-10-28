@@ -1,0 +1,325 @@
+{
+  "info": {
+    "name": "CampusFix API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Local CampusFix API collection. Uses cookie-based auth; register or login before protected requests."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "complaintId",
+      "value": "replace-with-complaint-id"
+    },
+    {
+      "key": "notificationId",
+      "value": "replace-with-notification-id"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      }
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"CampusFix Student\",\n  \"email\": \"student@example.test\",\n  \"password\": \"replace-me-with-8-chars\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/register"
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"student@example.test\",\n  \"password\": \"replace-me-with-8-chars\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/login"
+      }
+    },
+    {
+      "name": "Current user",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/auth/me"
+      }
+    },
+    {
+      "name": "Update profile and notification preference",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"CampusFix Student\",\n  \"email\": \"student@example.test\",\n  \"notifications\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/auth/preferences"
+      }
+    },
+    {
+      "name": "List complaints with filters",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/complaints?page=1&limit=10&search=wifi&status=Submitted&sort=priority"
+      }
+    },
+    {
+      "name": "Create complaint",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Wi-Fi issue in library\",\n  \"description\": \"The campus Wi-Fi disconnects repeatedly in the central library.\",\n  \"category\": \"Internet\",\n  \"location\": \"Central Library\",\n  \"priority\": \"Medium\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/complaints"
+      }
+    },
+    {
+      "name": "Create complaint with image upload",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "Leaking faucet in Block B",
+              "type": "text"
+            },
+            {
+              "key": "description",
+              "value": "Water is leaking continuously from the washroom faucet.",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "value": "Water",
+              "type": "text"
+            },
+            {
+              "key": "location",
+              "value": "Hostel Block B, washroom",
+              "type": "text"
+            },
+            {
+              "key": "priority",
+              "value": "Medium",
+              "type": "text"
+            },
+            {
+              "key": "attachments",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": "{{baseUrl}}/api/complaints"
+      }
+    },
+    {
+      "name": "Complaint details",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/complaints/{{complaintId}}"
+      }
+    },
+    {
+      "name": "Edit complaint",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Updated details about the repeated Wi-Fi disconnections in the library.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/complaints/{{complaintId}}"
+      }
+    },
+    {
+      "name": "Staff status update (staff/admin only)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"In Progress\",\n  \"note\": \"The campus network team is investigating.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/staff/complaints/{{complaintId}}/status"
+      }
+    },
+    {
+      "name": "Delete complaint",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/complaints/{{complaintId}}"
+      }
+    },
+    {
+      "name": "Dashboard stats",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/dashboard/stats"
+      }
+    },
+    {
+      "name": "Notifications",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/notifications"
+      }
+    },
+    {
+      "name": "Mark notification read",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/notifications/{{notificationId}}/read"
+      }
+    },
+    {
+      "name": "Mark all notifications read",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/notifications/read-all"
+      }
+    },
+    {
+      "name": "Feedback history",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/feedback"
+      }
+    },
+    {
+      "name": "Submit feedback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"rating\": 5,\n  \"message\": \"The issue tracking flow was easy to use.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/feedback"
+      }
+    },
+    {
+      "name": "Unauthorized example (logout first)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/auth/me"
+      }
+    },
+    {
+      "name": "Invalid complaint example",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"bad\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/complaints"
+      }
+    },
+    {
+      "name": "Not found example",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/complaints/000000000000000000000000"
+      }
+    }
+  ]
+}
