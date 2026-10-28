@@ -3,11 +3,6 @@ import universityLogo from "../assets/university-logo.png";
 import { authService } from "../services/authService";
 
 function Login({ onLogin, initialError = "" }) {
-
-  // ==========================================
-  // STATES
-  // ==========================================
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,85 +14,42 @@ function Login({ onLogin, initialError = "" }) {
   const [loading, setLoading] = useState(false);
 
 
-  // ==========================================
-  // LOGIN FUNCTION
-  // ==========================================
-
-  const handleLogin = async (e) => {
-
-    e.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault();
     if (loading) return;
 
     setError("");
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
 
-
-    // Check name
-
-    if (name.trim() === "") {
-
-      setError("Please enter your name.");
-
+    if (registering && (trimmedName.length < 2 || trimmedName.length > 100)) {
+      setError("Please enter a name between 2 and 100 characters.");
       return;
-
     }
-
-
-    // Check email
-
-    if (email.trim() === "") {
-
+    if (!trimmedEmail) {
       setError("Please enter your email address.");
-
       return;
-
     }
-
-
-    // Check password
-
-    if (password.trim() === "") {
-
+    if (!password) {
       setError("Please enter your password.");
-
       return;
-
+    }
+    if (registering && (password.length < 8 || password.length > 128)) {
+      setError("Password must be 8–128 characters.");
+      return;
     }
 
-
-    // ==========================================
-    // CREATE USER
-    // ==========================================
-
-    const user = {
-
-      name: "Yashsavi Maheshwari",
-
-      email: email.trim()
-
-    };
-
-
-    // ==========================================
-    // SAVE USER IN LOCAL STORAGE
-    // ==========================================
-
-    localStorage.setItem(
-      "campusFixUser",
-      JSON.stringify(user)
-    );
-
-    localStorage.setItem(
-      "campusFixLoggedIn",
-      "true"
-    );
-
-
-    // ==========================================
-    // SEND USER TO APP
-    // ==========================================
-
-    onLogin(user);
-
+    setLoading(true);
+    try {
+      const result = registering
+        ? await authService.register({ name: trimmedName, email: trimmedEmail, password })
+        : await authService.login({ email: trimmedEmail, password });
+      onLogin(result.user);
+    } catch (requestError) {
+      setError(requestError.message || "Unable to sign in. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
 
@@ -265,6 +217,23 @@ function Login({ onLogin, initialError = "" }) {
 
           <form onSubmit={handleLogin}>
 
+            {registering && (
+              <div className="form-group">
+                <label htmlFor="signup-name">Full Name</label>
+                <input
+                  id="signup-name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  minLength={2}
+                  maxLength={100}
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </div>
+            )}
+
 
             {/* EMAIL */}
 
@@ -307,6 +276,7 @@ function Login({ onLogin, initialError = "" }) {
                   }
                   autoComplete={registering ? "new-password" : "current-password"}
                   minLength={registering ? 8 : undefined}
+                  maxLength={registering ? 128 : undefined}
                   required
                   placeholder="Enter your password"
                   value={password}
@@ -385,15 +355,8 @@ function Login({ onLogin, initialError = "" }) {
 
           <div className="demo-login">
 
-            <strong>
-              🎓 CampusFix Demo
-            </strong>
-
-            <p>
-              This is a frontend demonstration.
-              Enter any email and password to
-              continue.
-            </p>
+            <strong>🎓 CampusFix Account</strong>
+            <p>Sign in or create an account to continue.</p>
 
           </div>
 
