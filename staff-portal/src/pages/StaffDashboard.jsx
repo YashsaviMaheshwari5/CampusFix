@@ -164,7 +164,7 @@ export default function StaffDashboard({
             </span>
             <span className="port-badge">PORT 5174 (STAFF)</span>
           </div>
-          <h1>Student Complaints Dashboard</h1>
+          <h1>Staff Dashboard</h1>
           <p className="page-desc">
             Real-time feed of all issues reported by students from CampusFix Student Portal.
           </p>
@@ -565,3 +565,4 @@ export default function StaffDashboard({
     </div>
   );
 }
+
