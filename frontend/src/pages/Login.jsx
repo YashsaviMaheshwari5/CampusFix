@@ -200,13 +200,13 @@ function Login({ onLogin, initialError = "" }) {
           <div className="login-header">
 
             <span>
-              WELCOME BACK
+              CAMPUSFIX STUDENT PORTAL
             </span>
 
-            <h2>{registering ? "Create your account" : "Login to CampusFix"}</h2>
+            <h2>{registering ? "Create your student account" : "Login to Student Portal"}</h2>
 
             <p>
-              Enter your details to continue.
+              Report campus issues and track their progress in real-time.
             </p>
 
           </div>
@@ -387,28 +387,6 @@ function Login({ onLogin, initialError = "" }) {
                   flex: "1 1 auto",
                   padding: "8px 12px",
                   borderRadius: "6px",
-                  border: "1px solid #5b3fd3",
-                  background: "#f0edff",
-                  color: "#5b3fd3",
-                  fontWeight: "bold",
-                  fontSize: "12px",
-                  cursor: "pointer"
-                }}
-                onClick={() => {
-                  setRegistering(false);
-                  setEmail("staff@campusfix.edu");
-                  setPassword("password123");
-                  setError("");
-                }}
-              >
-                🛠️ Staff Demo
-              </button>
-              <button
-                type="button"
-                style={{
-                  flex: "1 1 auto",
-                  padding: "8px 12px",
-                  borderRadius: "6px",
                   border: "1px solid #3b82f6",
                   background: "#eff6ff",
                   color: "#1d4ed8",
@@ -423,8 +401,13 @@ function Login({ onLogin, initialError = "" }) {
                   setError("");
                 }}
               >
-                🎓 Student Demo
+                🎓 Student Demo Account
               </button>
+            </div>
+            <div style={{ marginTop: "12px", borderTop: "1px dashed #e2e8f0", paddingTop: "8px" }}>
+              <a href="http://localhost:5174" target="_blank" rel="noreferrer" style={{ fontSize: "12px", color: "#5b3fd3", textDecoration: "none", fontWeight: 600 }}>
+                Are you a Staff Member? Open Staff Portal (Port 5174) ↗
+              </a>
             </div>
           </div>
 

@@ -15,3 +15,4 @@ export function canManageComplaints(role) {
 export function getAllowedStatusTransitions(status) {
   return statusTransitions[status] || [];
 }
+

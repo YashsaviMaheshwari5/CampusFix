@@ -45,3 +45,4 @@ export async function apiRequest(endpoint, options = {}) {
     throw new ApiError(error.message || 'Cannot reach CampusFix server. Ensure backend is running.', 0, 'NETWORK_ERROR');
   }
 }
+

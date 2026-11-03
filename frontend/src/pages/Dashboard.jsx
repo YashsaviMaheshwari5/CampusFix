@@ -16,17 +16,19 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
       .catch((error) => { if (error.name !== "AbortError") setStatsError(error.message); })
       .finally(() => { if (!controller.signal.aborted) setStatsLoading(false); });
     return () => controller.abort();
-  }, []);
+  }, [complaints]);
 
   // Logged-in user's name
-  const userName = localStorage.getItem("userName") || "Student";
+  const userName = user?.name || localStorage.getItem("userName") || "Student";
 
 
-  // Search complaints
+  // Search complaints by title, location, or category
+  const searchLower = search.trim().toLowerCase();
   const searchResults = complaints.filter((complaint) =>
-    complaint.title
-      .toLowerCase()
-      .includes(search.toLowerCase())
+    !searchLower ||
+    (complaint.title || "").toLowerCase().includes(searchLower) ||
+    (complaint.location || "").toLowerCase().includes(searchLower) ||
+    (complaint.category || "").toLowerCase().includes(searchLower)
   );
 
 
@@ -35,6 +37,9 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
 
     if (statusFilter === "All") {
       return true;
+    }
+    if (statusFilter === "Submitted") {
+      return ["Submitted", "Pending"].includes(complaint.status);
     }
 
     return complaint.status === statusFilter;
@@ -67,12 +72,12 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
       complaint.status === "Resolved"
   ).length;
 
-  const progressComplaints = serverStats?.inProgress ?? complaints.filter(
+  const progressComplaints = serverStats ? (serverStats.inProgress + serverStats.acknowledged) : complaints.filter(
     (complaint) =>
       ["In Progress", "Acknowledged"].includes(complaint.status)
   ).length;
 
-  const pendingComplaints = serverStats ? serverStats.submitted + serverStats.acknowledged : complaints.filter(
+  const pendingComplaints = serverStats ? serverStats.submitted : complaints.filter(
     (complaint) =>
       ["Submitted", "Pending"].includes(complaint.status)
   ).length;
@@ -92,7 +97,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
         <div>
 
           <span className="dashboard-label">
-            CAMPUSFIX DASHBOARD
+            CAMPUSFIX STUDENT PORTAL
           </span>
 
           <h1>
@@ -231,7 +236,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
           <div>
 
             <p>
-              Awaiting review
+              Pending Action
             </p>
 
             <h2>
@@ -239,16 +244,16 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
             </h2>
 
             <span>
-              Waiting for action
+              Awaiting review
             </span>
 
           </div>
 
         </div>
 
-        <div className="stat-card pending">
+        <div className="stat-card rejected">
           <div className="stat-icon">🚫</div>
-          <div><p>Rejected</p><h2>{rejectedComplaints}</h2><span>Reviewed and declined</span></div>
+          <div><p>Rejected</p><h2>{rejectedComplaints}</h2><span>Reviewed & declined</span></div>
         </div>
 
       </div>
@@ -432,6 +437,8 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
                     className={
                       complaint.status === "Resolved"
                         ? "resolved-badge"
+                        : complaint.status === "Rejected"
+                        ? "rejected-badge"
                         : ["Submitted", "Pending"].includes(complaint.status)
                         ? "pending-badge"
                         : "progress-badge"

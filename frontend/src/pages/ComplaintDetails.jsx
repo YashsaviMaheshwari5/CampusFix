@@ -98,6 +98,8 @@ function ComplaintDetails({ complaint, user, onUpdated, onBack }) {
           className={
             details.status === "Resolved"
               ? "resolved-badge"
+              : details.status === "Rejected"
+              ? "rejected-badge"
               : ["Pending", "Submitted", "Acknowledged"].includes(details.status)
               ? "pending-badge"
               : "progress-badge"

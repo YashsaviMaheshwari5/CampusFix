@@ -15,3 +15,4 @@ echo All three servers have been launched in separate windows!
 timeout /t 3 /nobreak >nul
 start http://localhost:5173
 start http://localhost:5174
+

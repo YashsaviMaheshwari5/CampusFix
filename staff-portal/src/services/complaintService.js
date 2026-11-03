@@ -36,3 +36,4 @@ export async function updateStatusAndRefresh(id, changes) {
     return { complaint: savedComplaint, refreshed: false, refreshError };
   }
 }
+

@@ -6,3 +6,4 @@ export const authService = {
   me: (signal) => apiRequest('/auth/me', { signal }),
   logout: () => apiRequest('/auth/logout', { method: 'POST' }),
 };
+

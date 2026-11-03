@@ -64,32 +64,48 @@ function Sidebar({
           ===================================== */}
 
       <nav className="sidebar-nav">
-        {menuItems.map((item) => {
-          const isDashboardItem = item.id === "dashboard";
-          const isStaffUser = user?.role === "staff" || user?.role === "admin";
-          const label = isDashboardItem && isStaffUser ? "Staff Dashboard" : item.label;
-          const icon = isDashboardItem && isStaffUser ? "📊" : item.icon;
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            className={
+              activePage === item.id
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActivePage(item.id)
+            }
+          >
+            <span>
+              {item.icon}
+            </span>
 
-          return (
-            <button
-              key={item.id}
-              className={
-                activePage === item.id
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setActivePage(item.id)
-              }
-            >
-              <span>
-                {icon}
-              </span>
+            {item.label}
+          </button>
+        ))}
 
-              {label}
-            </button>
-          );
-        })}
+        <a
+          href="http://localhost:5174"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "10px 14px",
+            borderRadius: "8px",
+            color: "#5b3fd3",
+            background: "#f0edff",
+            fontSize: "13px",
+            fontWeight: "600",
+            textDecoration: "none",
+            marginTop: "12px",
+            border: "1px dashed #d8b4fe"
+          }}
+        >
+          <span>🛠️</span>
+          Staff Portal (5174) ↗
+        </a>
       </nav>
 
 

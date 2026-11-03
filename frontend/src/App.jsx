@@ -3,7 +3,6 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import StaffDashboard from "./staff/StaffDashboard";
 import Complaints from "./pages/Complaints";
 import ReportIssue from "./pages/ReportIssue";
 import ComplaintDetails from "./pages/ComplaintDetails";
@@ -55,6 +54,15 @@ function App() {
     return () => controller.abort();
   }, [isLoggedIn, refreshComplaints]);
 
+  // Live auto-polling every 10s: pulls updates when staff changes status in MongoDB
+  useEffect(() => {
+    if (!isLoggedIn) return undefined;
+    const interval = setInterval(() => {
+      refreshComplaints().catch(() => {});
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [isLoggedIn, refreshComplaints]);
+
   useEffect(() => {
     const update = () => {
       try { setDarkMode(JSON.parse(localStorage.getItem("campusFixSettings") || "{}").darkMode === true); }
@@ -76,15 +84,13 @@ function App() {
     setSelectedComplaint(updatedComplaint);
   };
 
-  if (authLoading) return <div className="login-page"><div className="login-card">Connecting to CampusFix…</div></div>;
+  if (authLoading) return <div className="login-page"><div className="login-card">Connecting to CampusFix Student Portal…</div></div>;
   if (!isLoggedIn) return <Login onLogin={handleLogin} initialError={error} />;
 
   const isStaff = canManageComplaints(user?.role);
   const props = { complaints, onSelectComplaint: setSelectedComplaint };
   const pages = {
-    dashboard: isStaff
-      ? <StaffDashboard {...props} user={user} onComplaintUpdated={handleComplaintUpdated} onRefresh={refreshComplaints} loading={dataLoading} />
-      : <Dashboard {...props} user={user} />,
+    dashboard: <Dashboard {...props} user={user} />,
     complaints: <Complaints {...props} loading={dataLoading} />,
     report: <ReportIssue onCreated={(complaint) => setComplaints((old) => [complaint, ...old])} />,
     notifications: <Notifications />,
@@ -93,12 +99,37 @@ function App() {
     settings: <Settings darkMode={darkMode} onDarkModeChange={setDarkMode} user={user} onUserChange={setUser} />,
   };
   if (isStaff) {
-    pages["staff-complaints"] = <StaffDashboard {...props} user={user} onComplaintUpdated={handleComplaintUpdated} onRefresh={refreshComplaints} loading={dataLoading} />;
+    pages["staff-complaints"] = <Complaints {...props} loading={dataLoading} staffView user={user} />;
   }
 
   return <div className={darkMode ? "app dark-mode" : "app"}>
     <Sidebar activePage={activePage} setActivePage={setActivePage} onLogout={handleLogout} user={user} />
     <main className="main-content">
+      {isStaff && (
+        <div style={{
+          background: "#f0edff",
+          border: "1px solid #c7d2fe",
+          borderRadius: "10px",
+          padding: "10px 16px",
+          marginBottom: "16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontSize: "13px",
+          color: "#4338ca",
+          fontWeight: "500"
+        }}>
+          <span>🛠️ You are logged in with Staff role ({user?.email}).</span>
+          <a
+            href="http://localhost:5174"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "#4f46e5", fontWeight: "700", textDecoration: "underline" }}
+          >
+            Open Dedicated Staff Portal (Port 5174) ↗
+          </a>
+        </div>
+      )}
       {error && <div role="alert" className="login-error">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
       {selectedComplaint
         ? <ComplaintDetails complaint={selectedComplaint} user={user} onUpdated={handleComplaintUpdated} onBack={() => setSelectedComplaint(null)} />

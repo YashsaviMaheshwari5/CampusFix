@@ -21,7 +21,7 @@ function Complaints({ complaints, onSelectComplaint, staffView = false }) {
         .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     }, search ? 250 : 0);
     return () => { clearTimeout(timer); controller.abort(); };
-  }, [search, statusFilter, page]);
+  }, [search, statusFilter, page, complaints]);
 
   const sortedComplaints = rows;
 
@@ -32,10 +32,10 @@ function Complaints({ complaints, onSelectComplaint, staffView = false }) {
       <div className="page-header">
 
         <div>
-          <h1>{staffView ? "Manage Complaints 🛠️" : "All Complaints 📋"}</h1>
+          <h1>{staffView ? "Manage Complaints 🛠️" : "My Complaints 📋"}</h1>
 
           <p>
-            {staffView ? "Review campus complaints and update their status." : "View and track all campus complaints."}
+            {staffView ? "Review campus complaints and update their status." : "View and track the status of all issues you have reported."}
           </p>
         </div>
 
@@ -169,6 +169,8 @@ function Complaints({ complaints, onSelectComplaint, staffView = false }) {
                   className={
                     complaint.status === "Resolved"
                       ? "resolved-badge"
+                      : complaint.status === "Rejected"
+                      ? "rejected-badge"
                       : ["Pending", "Submitted", "Acknowledged"].includes(complaint.status)
                       ? "pending-badge"
                       : "progress-badge"

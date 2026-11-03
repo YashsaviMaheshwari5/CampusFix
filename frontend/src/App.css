@@ -409,6 +409,22 @@ button {
   flex-shrink: 0;
 }
 
+.stat-card.resolved .stat-icon {
+  background: #ecfdf5;
+}
+
+.stat-card.progress .stat-icon {
+  background: #f5f3ff;
+}
+
+.stat-card.pending .stat-icon {
+  background: #fffbeb;
+}
+
+.stat-card.rejected .stat-icon {
+  background: #fef2f2;
+}
+
 .stat-card p {
   color: #777;
 
@@ -634,7 +650,8 @@ button {
 
 .resolved-badge,
 .progress-badge,
-.pending-badge {
+.pending-badge,
+.rejected-badge {
   display: inline-block;
 
   padding: 6px 10px;
@@ -661,6 +678,11 @@ button {
 .pending-badge {
   background: #fff5df;
   color: #a96b00;
+}
+
+.rejected-badge {
+  background: #fef2f2;
+  color: #b91c1c;
 }
 
 
