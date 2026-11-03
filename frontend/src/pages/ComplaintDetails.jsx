@@ -244,15 +244,41 @@ function ComplaintDetails({ complaint, user, onUpdated, onBack }) {
 
 
             <div className="detail-row">
-
               <span>
                 Location
               </span>
-
               <strong>
                 {details.location}
               </strong>
+            </div>
 
+            <div className="detail-row">
+              <span>
+                Submitted By
+              </span>
+              <strong>
+                {details.submittedBy?.name || "Student"}
+              </strong>
+            </div>
+
+            {details.submittedBy?.email && (
+              <div className="detail-row">
+                <span>
+                  Student Email
+                </span>
+                <strong style={{ wordBreak: 'break-all' }}>
+                  {details.submittedBy.email}
+                </strong>
+              </div>
+            )}
+
+            <div className="detail-row">
+              <span>
+                Date Raised
+              </span>
+              <strong>
+                {details.createdAt ? new Date(details.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : "N/A"}
+              </strong>
             </div>
 
           </div>

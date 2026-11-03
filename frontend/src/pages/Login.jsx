@@ -6,6 +6,7 @@ function Login({ onLogin, initialError = "" }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,7 +43,7 @@ function Login({ onLogin, initialError = "" }) {
     setLoading(true);
     try {
       const result = registering
-        ? await authService.register({ name: trimmedName, email: trimmedEmail, password })
+        ? await authService.register({ name: trimmedName, email: trimmedEmail, password, role })
         : await authService.login({ email: trimmedEmail, password });
       onLogin(result.user);
     } catch (requestError) {
@@ -218,20 +219,43 @@ function Login({ onLogin, initialError = "" }) {
           <form onSubmit={handleLogin}>
 
             {registering && (
-              <div className="form-group">
-                <label htmlFor="signup-name">Full Name</label>
-                <input
-                  id="signup-name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  minLength={2}
-                  maxLength={100}
-                  placeholder="Enter your full name"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                />
-              </div>
+              <>
+                <div className="form-group">
+                  <label htmlFor="signup-name">Full Name</label>
+                  <input
+                    id="signup-name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    minLength={2}
+                    maxLength={100}
+                    placeholder="Enter your full name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="signup-role">Account Type</label>
+                  <select
+                    id="signup-role"
+                    value={role}
+                    onChange={(event) => setRole(event.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      borderRadius: "8px",
+                      border: "1px solid #ddd",
+                      background: "white",
+                      fontSize: "14px",
+                      marginTop: "6px"
+                    }}
+                  >
+                    <option value="student">🎓 Student (Report & track issues)</option>
+                    <option value="staff">🛠️ Staff Member (Manage complaints)</option>
+                  </select>
+                </div>
+              </>
             )}
 
 
@@ -354,10 +378,54 @@ function Login({ onLogin, initialError = "" }) {
           </button>
 
           <div className="demo-login">
-
-            <strong>🎓 CampusFix Account</strong>
-            <p>Sign in or create an account to continue.</p>
-
+            <strong>🎓 Quick Demo Credentials</strong>
+            <p>Click below to prefill demo accounts:</p>
+            <div style={{ display: "flex", gap: "8px", marginTop: "10px", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                style={{
+                  flex: "1 1 auto",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  border: "1px solid #5b3fd3",
+                  background: "#f0edff",
+                  color: "#5b3fd3",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  setRegistering(false);
+                  setEmail("staff@campusfix.edu");
+                  setPassword("password123");
+                  setError("");
+                }}
+              >
+                🛠️ Staff Demo
+              </button>
+              <button
+                type="button"
+                style={{
+                  flex: "1 1 auto",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  border: "1px solid #3b82f6",
+                  background: "#eff6ff",
+                  color: "#1d4ed8",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  setRegistering(false);
+                  setEmail("student@campusfix.edu");
+                  setPassword("password123");
+                  setError("");
+                }}
+              >
+                🎓 Student Demo
+              </button>
+            </div>
           </div>
 
 

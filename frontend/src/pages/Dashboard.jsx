@@ -116,7 +116,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
 
           {/* Dynamic Avatar */}
           <div className="profile-avatar">
-            YM
+            {initials || "CF"}
           </div>
 
 
@@ -124,7 +124,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
 
             {/* Dynamic User Name */}
             <strong>
-              Yashsavi M.
+              {user?.name || userName}
             </strong>
 
             <span>

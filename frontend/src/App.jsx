@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import StaffDashboard from "./pages/StaffDashboard";
 import Complaints from "./pages/Complaints";
 import ReportIssue from "./pages/ReportIssue";
 import ComplaintDetails from "./pages/ComplaintDetails";
@@ -37,15 +38,22 @@ function App() {
     return () => controller.abort();
   }, []);
 
+  const refreshComplaints = useCallback((signal) => {
+    return complaintService.list({ limit: 100 }, signal)
+      .then(({ complaints: rows }) => {
+        setComplaints(rows);
+        return rows;
+      });
+  }, []);
+
   useEffect(() => {
     if (!isLoggedIn) return undefined;
     const controller = new AbortController();
-    complaintService.list({ limit: 50 }, controller.signal)
-      .then(({ complaints: rows }) => setComplaints(rows))
+    refreshComplaints(controller.signal)
       .catch((err) => { if (err.name !== "AbortError") setError(err.message); })
       .finally(() => { if (!controller.signal.aborted) setDataLoading(false); });
     return () => controller.abort();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, refreshComplaints]);
 
   useEffect(() => {
     const update = () => {
@@ -71,9 +79,12 @@ function App() {
   if (authLoading) return <div className="login-page"><div className="login-card">Connecting to CampusFix…</div></div>;
   if (!isLoggedIn) return <Login onLogin={handleLogin} initialError={error} />;
 
+  const isStaff = canManageComplaints(user?.role);
   const props = { complaints, onSelectComplaint: setSelectedComplaint };
   const pages = {
-    dashboard: <Dashboard {...props} user={user} />,
+    dashboard: isStaff
+      ? <StaffDashboard {...props} user={user} onComplaintUpdated={handleComplaintUpdated} onRefresh={refreshComplaints} loading={dataLoading} />
+      : <Dashboard {...props} user={user} />,
     complaints: <Complaints {...props} loading={dataLoading} />,
     report: <ReportIssue onCreated={(complaint) => setComplaints((old) => [complaint, ...old])} />,
     notifications: <Notifications />,
@@ -81,8 +92,8 @@ function App() {
     feedback: <Feedback />,
     settings: <Settings darkMode={darkMode} onDarkModeChange={setDarkMode} user={user} onUserChange={setUser} />,
   };
-  if (canManageComplaints(user?.role)) {
-    pages["staff-complaints"] = <Complaints {...props} loading={dataLoading} staffView user={user} />;
+  if (isStaff) {
+    pages["staff-complaints"] = <StaffDashboard {...props} user={user} onComplaintUpdated={handleComplaintUpdated} onRefresh={refreshComplaints} loading={dataLoading} />;
   }
 
   return <div className={darkMode ? "app dark-mode" : "app"}>

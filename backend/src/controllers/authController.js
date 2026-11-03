@@ -13,10 +13,11 @@ async function issueToken(user, res) {
 }
 
 export async function register(req, res) {
-  const { name, email, password } = req.body || {};
+  const { name, email, password, role } = req.body || {};
   if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100 || typeof email !== 'string' || !/^\S+@\S+\.\S+$/.test(email) || typeof password !== 'string' || password.length < 8 || password.length > 128) throw new AppError('Enter a valid name and email. Password must be 8–128 characters.', 400, 'VALIDATION_ERROR');
   if (await User.exists({ email: email.trim().toLowerCase() })) throw new AppError('An account with this email already exists.', 409, 'DUPLICATE');
-  const user = await User.create({ name: name.trim(), email: email.trim().toLowerCase(), passwordHash: await hashPassword(password) });
+  const userRole = ['student', 'staff'].includes(role) ? role : 'student';
+  const user = await User.create({ name: name.trim(), email: email.trim().toLowerCase(), passwordHash: await hashPassword(password), role: userRole });
   await issueToken(user, res);
   res.status(201).json({ success: true, data: { user: publicUser(user) } });
 }
