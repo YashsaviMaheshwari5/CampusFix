@@ -3,7 +3,7 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import StaffDashboard from "./pages/StaffDashboard";
+import StaffDashboard from "./staff/StaffDashboard";
 import Complaints from "./pages/Complaints";
 import ReportIssue from "./pages/ReportIssue";
 import ComplaintDetails from "./pages/ComplaintDetails";

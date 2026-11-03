@@ -33,4 +33,6 @@ router.patch('/notifications/read-all', requireAuth, asyncRoute(readAllNotificat
 router.get('/feedback', requireAuth, asyncRoute(feedbackList));
 router.post('/feedback', requireAuth, asyncRoute(createFeedback));
 router.patch('/staff/complaints/:id/status', requireAuth, allowRoles('staff', 'admin'), statusUpdateBody, asyncRoute(complaints.update));
+router.get('/staff/complaints', requireAuth, allowRoles('staff', 'admin'), asyncRoute(complaints.list));
+router.get('/staff/stats', requireAuth, allowRoles('staff', 'admin'), asyncRoute(stats));
 export default router;
