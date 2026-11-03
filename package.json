@@ -3,7 +3,11 @@
   "private": true,
   "scripts": {
     "dev": "npm --prefix frontend run dev",
+    "student:dev": "npm --prefix frontend run dev",
+    "staff:dev": "npm --prefix staff-portal run dev",
     "build": "npm --prefix frontend run build",
+    "build:staff": "npm --prefix staff-portal run build",
+    "build:all": "npm --prefix frontend run build && npm --prefix staff-portal run build",
     "lint": "npm --prefix frontend run lint",
     "preview": "npm --prefix frontend run preview",
     "test": "npm --prefix backend test",

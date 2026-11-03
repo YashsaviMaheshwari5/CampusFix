@@ -46,3 +46,4 @@ export default function StaffGuard({ user, children, onFallback }) {
 
   return children;
 }
+

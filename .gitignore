@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 backend/node_modules
+staff-portal/node_modules
 dist
 dist-ssr
 *.local
@@ -25,10 +26,11 @@ dist-ssr
 *.sw?
 .env
 .env.*
-!.env.example
 !frontend/.env.example
+!backend/.env.example
 backend/.env
 backend/.env.*
-!backend/.env.example
+staff-portal/.env
+staff-portal/.env.*
 backend/uploads/*
 !backend/uploads/.gitkeep
