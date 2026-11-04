@@ -2,16 +2,16 @@
 cd /d "%~dp0"
 echo ========================================================
 echo   Launching CampusFix Ecosystem
-echo   1. Backend API (Port 4000)
+echo   1. Backend API (Port 4000) - Connected to MongoDB
 echo   2. Student Portal (Port 5173)
 echo   3. Staff Portal (Port 5174)
 echo ========================================================
 
-start "CampusFix Backend" cmd /c "cd /d "%~dp0backend" && start-backend.bat"
-start "CampusFix Student Portal" cmd /c "cd /d "%~dp0frontend" && start-student-portal.bat"
-start "CampusFix Staff Portal" cmd /c "cd /d "%~dp0staff-portal" && start-staff-portal.bat"
+start "CampusFix Backend (Port 4000)" cmd /k "cd /d ""%~dp0backend"" && call npm.cmd run dev"
+start "CampusFix Student Portal (Port 5173)" cmd /k "cd /d ""%~dp0frontend"" && call npm.cmd run dev"
+start "CampusFix Staff Portal (Port 5174)" cmd /k "cd /d ""%~dp0staff-portal"" && call npm.cmd run dev"
 
-echo All three servers have been launched in separate windows!
+echo All three servers are launching in separate command windows.
 timeout /t 3 /nobreak >nul
 start http://localhost:5173
 start http://localhost:5174

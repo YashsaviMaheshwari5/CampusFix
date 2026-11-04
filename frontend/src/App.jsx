@@ -92,7 +92,7 @@ function App() {
   const pages = {
     dashboard: <Dashboard {...props} user={user} />,
     complaints: <Complaints {...props} loading={dataLoading} />,
-    report: <ReportIssue onCreated={(complaint) => setComplaints((old) => [complaint, ...old])} />,
+    report: <ReportIssue onCreated={(complaint) => { setComplaints((old) => [complaint, ...old]); setActivePage("complaints"); }} />,
     notifications: <Notifications />,
     knowledge: <KnowledgeBase />,
     feedback: <Feedback />,

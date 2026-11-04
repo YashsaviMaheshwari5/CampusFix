@@ -64,25 +64,32 @@ function Sidebar({
           ===================================== */}
 
       <nav className="sidebar-nav">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            className={
-              activePage === item.id
-                ? "active"
-                : ""
-            }
-            onClick={() =>
-              setActivePage(item.id)
-            }
-          >
-            <span>
-              {item.icon}
-            </span>
+        {menuItems.map((item) => {
+          const isDashboardItem = item.id === "dashboard";
+          const isStaffUser = user?.role === "staff" || user?.role === "admin";
+          const label = isDashboardItem && isStaffUser ? "Staff Dashboard" : item.label;
+          const icon = isDashboardItem && isStaffUser ? "📊" : item.icon;
 
-            {item.label}
-          </button>
-        ))}
+          return (
+            <button
+              key={item.id}
+              className={
+                activePage === item.id
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setActivePage(item.id)
+              }
+            >
+              <span>
+                {icon}
+              </span>
+
+              {label}
+            </button>
+          );
+        })}
 
         <a
           href="http://localhost:5174"

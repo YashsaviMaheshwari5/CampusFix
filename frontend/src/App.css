@@ -409,22 +409,6 @@ button {
   flex-shrink: 0;
 }
 
-.stat-card.resolved .stat-icon {
-  background: #ecfdf5;
-}
-
-.stat-card.progress .stat-icon {
-  background: #f5f3ff;
-}
-
-.stat-card.pending .stat-icon {
-  background: #fffbeb;
-}
-
-.stat-card.rejected .stat-icon {
-  background: #fef2f2;
-}
-
 .stat-card p {
   color: #777;
 
@@ -650,8 +634,7 @@ button {
 
 .resolved-badge,
 .progress-badge,
-.pending-badge,
-.rejected-badge {
+.pending-badge {
   display: inline-block;
 
   padding: 6px 10px;

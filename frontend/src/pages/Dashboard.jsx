@@ -22,13 +22,11 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
   const userName = user?.name || localStorage.getItem("userName") || "Student";
 
 
-  // Search complaints by title, location, or category
-  const searchLower = search.trim().toLowerCase();
+  // Search complaints
   const searchResults = complaints.filter((complaint) =>
-    !searchLower ||
-    (complaint.title || "").toLowerCase().includes(searchLower) ||
-    (complaint.location || "").toLowerCase().includes(searchLower) ||
-    (complaint.category || "").toLowerCase().includes(searchLower)
+    complaint.title
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
 
@@ -37,9 +35,6 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
 
     if (statusFilter === "All") {
       return true;
-    }
-    if (statusFilter === "Submitted") {
-      return ["Submitted", "Pending"].includes(complaint.status);
     }
 
     return complaint.status === statusFilter;
@@ -72,12 +67,12 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
       complaint.status === "Resolved"
   ).length;
 
-  const progressComplaints = serverStats ? (serverStats.inProgress + serverStats.acknowledged) : complaints.filter(
+  const progressComplaints = serverStats?.inProgress ?? complaints.filter(
     (complaint) =>
       ["In Progress", "Acknowledged"].includes(complaint.status)
   ).length;
 
-  const pendingComplaints = serverStats ? serverStats.submitted : complaints.filter(
+  const pendingComplaints = serverStats ? serverStats.submitted + serverStats.acknowledged : complaints.filter(
     (complaint) =>
       ["Submitted", "Pending"].includes(complaint.status)
   ).length;
@@ -236,7 +231,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
           <div>
 
             <p>
-              Pending Action
+              Awaiting review
             </p>
 
             <h2>
@@ -244,16 +239,16 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
             </h2>
 
             <span>
-              Awaiting review
+              Waiting for action
             </span>
 
           </div>
 
         </div>
 
-        <div className="stat-card rejected">
+        <div className="stat-card pending">
           <div className="stat-icon">🚫</div>
-          <div><p>Rejected</p><h2>{rejectedComplaints}</h2><span>Reviewed & declined</span></div>
+          <div><p>Rejected</p><h2>{rejectedComplaints}</h2><span>Reviewed and declined</span></div>
         </div>
 
       </div>

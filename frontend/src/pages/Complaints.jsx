@@ -21,7 +21,7 @@ function Complaints({ complaints, onSelectComplaint, staffView = false }) {
         .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     }, search ? 250 : 0);
     return () => { clearTimeout(timer); controller.abort(); };
-  }, [search, statusFilter, page, complaints]);
+  }, [search, statusFilter, page]);
 
   const sortedComplaints = rows;
 
