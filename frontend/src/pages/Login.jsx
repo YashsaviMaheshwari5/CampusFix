@@ -6,7 +6,6 @@ function Login({ onLogin, initialError = "" }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,7 +42,7 @@ function Login({ onLogin, initialError = "" }) {
     setLoading(true);
     try {
       const result = registering
-        ? await authService.register({ name: trimmedName, email: trimmedEmail, password, role })
+        ? await authService.register({ name: trimmedName, email: trimmedEmail, password })
         : await authService.login({ email: trimmedEmail, password });
       onLogin(result.user);
     } catch (requestError) {
@@ -200,13 +199,13 @@ function Login({ onLogin, initialError = "" }) {
           <div className="login-header">
 
             <span>
-              CAMPUSFIX STUDENT PORTAL
+              WELCOME BACK
             </span>
 
-            <h2>{registering ? "Create your student account" : "Login to Student Portal"}</h2>
+            <h2>{registering ? "Create your account" : "Login to CampusFix"}</h2>
 
             <p>
-              Report campus issues and track their progress in real-time.
+              Enter your details to continue.
             </p>
 
           </div>
@@ -219,43 +218,20 @@ function Login({ onLogin, initialError = "" }) {
           <form onSubmit={handleLogin}>
 
             {registering && (
-              <>
-                <div className="form-group">
-                  <label htmlFor="signup-name">Full Name</label>
-                  <input
-                    id="signup-name"
-                    type="text"
-                    autoComplete="name"
-                    required
-                    minLength={2}
-                    maxLength={100}
-                    placeholder="Enter your full name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="signup-role">Account Type</label>
-                  <select
-                    id="signup-role"
-                    value={role}
-                    onChange={(event) => setRole(event.target.value)}
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      borderRadius: "8px",
-                      border: "1px solid #ddd",
-                      background: "white",
-                      fontSize: "14px",
-                      marginTop: "6px"
-                    }}
-                  >
-                    <option value="student">🎓 Student (Report & track issues)</option>
-                    <option value="staff">🛠️ Staff Member (Manage complaints)</option>
-                  </select>
-                </div>
-              </>
+              <div className="form-group">
+                <label htmlFor="signup-name">Full Name</label>
+                <input
+                  id="signup-name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  minLength={2}
+                  maxLength={100}
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+              </div>
             )}
 
 
@@ -378,37 +354,10 @@ function Login({ onLogin, initialError = "" }) {
           </button>
 
           <div className="demo-login">
-            <strong>🎓 Quick Demo Credentials</strong>
-            <p>Click below to prefill demo accounts:</p>
-            <div style={{ display: "flex", gap: "8px", marginTop: "10px", flexWrap: "wrap" }}>
-              <button
-                type="button"
-                style={{
-                  flex: "1 1 auto",
-                  padding: "8px 12px",
-                  borderRadius: "6px",
-                  border: "1px solid #3b82f6",
-                  background: "#eff6ff",
-                  color: "#1d4ed8",
-                  fontWeight: "bold",
-                  fontSize: "12px",
-                  cursor: "pointer"
-                }}
-                onClick={() => {
-                  setRegistering(false);
-                  setEmail("student@campusfix.edu");
-                  setPassword("password123");
-                  setError("");
-                }}
-              >
-                🎓 Student Demo Account
-              </button>
-            </div>
-            <div style={{ marginTop: "12px", borderTop: "1px dashed #e2e8f0", paddingTop: "8px" }}>
-              <a href="http://localhost:5174" target="_blank" rel="noreferrer" style={{ fontSize: "12px", color: "#5b3fd3", textDecoration: "none", fontWeight: 600 }}>
-                Are you a Staff Member? Open Staff Portal (Port 5174) ↗
-              </a>
-            </div>
+
+            <strong>🎓 CampusFix Account</strong>
+            <p>Sign in or create an account to continue.</p>
+
           </div>
 
 

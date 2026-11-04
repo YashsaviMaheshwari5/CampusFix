@@ -92,7 +92,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
         <div>
 
           <span className="dashboard-label">
-            CAMPUSFIX STUDENT PORTAL
+            CAMPUSFIX DASHBOARD
           </span>
 
           <h1>

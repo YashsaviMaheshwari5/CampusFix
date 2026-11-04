@@ -49,7 +49,7 @@ function Sidebar({
             </h2>
 
             <p>
-              Student Portal
+              Campus Issue Management
             </p>
 
           </div>
