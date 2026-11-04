@@ -88,7 +88,7 @@ function App() {
   if (!isLoggedIn) return <Login onLogin={handleLogin} initialError={error} />;
 
   const isStaff = canManageComplaints(user?.role);
-  const props = { complaints, onSelectComplaint: setSelectedComplaint };
+  const props = { complaints, onSelectComplaint: setSelectedComplaint, onNavigate: setActivePage };
   const pages = {
     dashboard: <Dashboard {...props} user={user} />,
     complaints: <Complaints {...props} loading={dataLoading} />,
