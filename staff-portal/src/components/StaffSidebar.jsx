@@ -65,19 +65,6 @@ export default function StaffSidebar({
           <span className="nav-icon">🚫</span>
           <span className="nav-label">Rejected</span>
         </button>
-
-        <div className="nav-group-label" style={{ marginTop: "20px" }}>EXTERNAL</div>
-
-        <a
-          href="http://localhost:5173"
-          target="_blank"
-          rel="noreferrer"
-          className="staff-nav-item external-link"
-        >
-          <span className="nav-icon">🎓</span>
-          <span className="nav-label">Student Portal</span>
-          <span className="nav-arrow">↗</span>
-        </a>
       </nav>
 
       <div className="staff-sidebar-footer">

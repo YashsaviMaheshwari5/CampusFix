@@ -233,18 +233,10 @@ export default function StaffComplaintDetails({
           </div>
 
           <div className="content-card student-portal-reference">
-            <h3>🎓 Connected to Student Portal</h3>
+            <h3>🔄 Real-Time Database Sync</h3>
             <p>
               Any changes made here directly synchronize with MongoDB and update the student&apos;s view in real-time.
             </p>
-            <a
-              href="http://localhost:5173"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary full-width"
-            >
-              Open Student Portal (Port 5173) ↗
-            </a>
           </div>
         </div>
       </div>
