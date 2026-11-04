@@ -96,7 +96,7 @@ function App() {
     notifications: <Notifications />,
     knowledge: <KnowledgeBase />,
     feedback: <Feedback />,
-    settings: <Settings darkMode={darkMode} onDarkModeChange={setDarkMode} user={user} onUserChange={setUser} />,
+    settings: <Settings key={user?.id || user?.email || "settings"} darkMode={darkMode} onDarkModeChange={setDarkMode} user={user} onUserChange={setUser} />,
   };
   if (isStaff) {
     pages["staff-complaints"] = <Complaints {...props} loading={dataLoading} staffView user={user} />;
