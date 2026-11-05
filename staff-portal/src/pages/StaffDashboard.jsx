@@ -417,14 +417,28 @@ export default function StaffDashboard({
                     onClick={() => onSelectComplaint(item)}
                   >
                     <td>
-                      <div className="issue-text-wrap">
-                        <strong className="issue-title">{item.title}</strong>
-                        <p className="issue-desc-short">{item.description}</p>
-                        <span className="issue-time-sub">
-                          📅 {formatDate(item.createdAt)} · {timeAgo(item.createdAt)}
-                        </span>
-                      </div>
-                    </td>
+<div className="issue-text-wrap">
+  <div className="issue-title-row">
+    <div className="issue-title-row">
+  <strong className="issue-title">{item.title}</strong>
+
+  {item.status === "Submitted" && (
+    <span className="new-complaint-badge">NEW</span>
+  )}
+</div>
+
+    {item.status === "Submitted" && (
+      <span className="new-complaint-badge">NEW</span>
+    )}
+  </div>
+
+  <p className="issue-desc-short">{item.description}</p>
+
+  <span className="issue-time-sub">
+    📅 {formatDate(item.createdAt)} · {timeAgo(item.createdAt)}
+  </span>
+</div>
+</td>
 
                     <td>
                       <span className="cat-badge">

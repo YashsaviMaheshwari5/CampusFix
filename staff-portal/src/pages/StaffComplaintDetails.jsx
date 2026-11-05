@@ -15,6 +15,17 @@ export default function StaffComplaintDetails({
   const [success, setSuccess] = useState("");
 
   const handleUpdate = async (e) => {
+    if (
+  (nextStatus === "Rejected" || nextStatus === "Resolved") &&
+  !note.trim()
+) {
+  setError(
+    nextStatus === "Rejected"
+      ? "Please provide a reason for rejection."
+      : "Please provide a resolution note."
+  );
+  return;
+}
     e.preventDefault();
     if (!nextStatus || saving) return;
 
@@ -54,11 +65,35 @@ export default function StaffComplaintDetails({
 
   return (
     <div className="details-view-container">
-      <button type="button" className="btn-back" onClick={onBack}>
-        ← Back to Complaints Dashboard
-      </button>
-
-      <div className="details-header-card">
+ <button
+  type="button"
+  onClick={onBack}
+  aria-label="Close complaint details"
+  style={{
+    position: "absolute",
+    top: "18px",
+    right: "20px",
+    width: "36px",
+    height: "36px",
+    border: "none",
+    borderRadius: "50%",
+    background: "#fee2e2",
+    color: "#dc2626",
+    fontSize: "22px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  }}
+>
+  ×
+</button>
+      <div
+  className="details-view-container"
+  style={{ position: "relative" }}
+>
         <div>
           <span className="details-tag">COMPLAINT INSPECTION</span>
           <h1>{complaint.title}</h1>
@@ -80,62 +115,94 @@ export default function StaffComplaintDetails({
             <p className="full-description-text">{complaint.description}</p>
           </div>
 
-          {/* Status Update Panel for Staff */}
-          <div className="content-card update-action-card">
-            <h2>⚡ Update Status & Add Resolution Note</h2>
-            <p className="panel-sub">
-              Current Status: <strong>{complaint.status}</strong>
-            </p>
+{/* Status Update Panel for Staff */}
+<div className="content-card update-action-card">
+  <h2>Manage Complaint</h2>
 
-            {allowed.length === 0 ? (
-              <p className="terminal-note">
-                This complaint is in a final state ({complaint.status}) and cannot be transitioned further.
-              </p>
-            ) : (
-              <form onSubmit={handleUpdate} className="inline-update-form">
-                <div className="form-field">
-                  <label htmlFor="details-next-status">New Status</label>
-                  <select
-                    id="details-next-status"
-                    value={nextStatus}
-                    onChange={(e) => setNextStatus(e.target.value)}
-                    disabled={saving}
-                    required
-                  >
-                    {allowed.map((st) => (
-                      <option key={st} value={st}>
-                        {st}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+  <p className="panel-sub">
+    Current Status: <strong>{complaint.status}</strong>
+  </p>
 
-                <div className="form-field">
-                  <label htmlFor="details-update-note">Audit Note / Resolution Remarks (Optional)</label>
-                  <textarea
-                    id="details-update-note"
-                    rows={3}
-                    maxLength={500}
-                    placeholder="Enter notes about work done, technicians dispatched, or reasons for status change..."
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    disabled={saving}
-                  />
-                </div>
+  {allowed.length === 0 ? (
+    <p className="terminal-note">
+      This complaint is already in its final status ({complaint.status}).
+    </p>
+  ) : (
+    <form onSubmit={handleUpdate} className="inline-update-form">
+      <div className="form-field">
+        <label htmlFor="details-next-status">Choose Action</label>
 
-                {error && <div className="modal-error-alert">⚠️ {error}</div>}
-                {success && <div className="modal-success-alert">{success}</div>}
+        <select
+          id="details-next-status"
+          value={nextStatus}
+          onChange={(e) => {
+            setNextStatus(e.target.value);
+            setError("");
+          }}
+          disabled={saving}
+          required
+        >
+          {allowed.map((st) => (
+            <option key={st} value={st}>
+              {st === "Acknowledged" ? "Accept Complaint" :
+               st === "In Progress" ? "Start Working" :
+               st === "Resolved" ? "Resolve Complaint" :
+               st === "Rejected" ? "Reject Complaint" : st}
+            </option>
+          ))}
+        </select>
+      </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={saving || !nextStatus}
-                >
-                  {saving ? "Updating in MongoDB…" : "Save Status & Notify Student"}
-                </button>
-              </form>
-            )}
-          </div>
+      <div className="form-field">
+        <label htmlFor="details-update-note">
+          {nextStatus === "Rejected"
+            ? "Reason for Rejection *"
+            : nextStatus === "Resolved"
+            ? "Resolution Note *"
+            : "Additional Remarks (Optional)"}
+        </label>
+
+        <textarea
+          id="details-update-note"
+          rows={4}
+          maxLength={500}
+          placeholder={
+            nextStatus === "Rejected"
+              ? "Explain why this complaint is being rejected..."
+              : nextStatus === "Resolved"
+              ? "Describe how the complaint was resolved..."
+              : "Add remarks about the complaint..."
+          }
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          disabled={saving}
+          required={nextStatus === "Rejected" || nextStatus === "Resolved"}
+        />
+      </div>
+
+      {error && <div className="modal-error-alert">{error}</div>}
+      {success && <div className="modal-success-alert">{success}</div>}
+
+      <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={saving || !nextStatus}
+      >
+        {saving
+          ? "Updating..."
+          : nextStatus === "Acknowledged"
+          ? "Accept Complaint"
+          : nextStatus === "In Progress"
+          ? "Start Working"
+          : nextStatus === "Resolved"
+          ? "Resolve Complaint"
+          : nextStatus === "Rejected"
+          ? "Reject Complaint"
+          : "Update Status"}
+      </button>
+    </form>
+  )}
+</div>
 
           {/* Attachments */}
           {complaint.attachments?.length > 0 && (

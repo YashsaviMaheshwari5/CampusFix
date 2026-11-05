@@ -174,27 +174,52 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="staff-main-area">
-        {selectedComplaint ? (
-          <StaffComplaintDetails
-            complaint={selectedComplaint}
-            onBack={() => setSelectedComplaint(null)}
-            onUpdateStatus={handleStatusUpdate}
-          />
-        ) : (
-          <StaffDashboard
-            complaints={complaints}
-            stats={stats}
-            onSelectComplaint={setSelectedComplaint}
-            onOpenUpdateModal={setModalComplaint}
-            onRefresh={() => fetchAllData(false)}
-            refreshing={refreshing}
-            lastRefreshed={lastRefreshed}
-            statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
-          />
-        )}
-      </main>
+<main className="staff-main-area">
+  <StaffDashboard
+    complaints={complaints}
+    stats={stats}
+    onSelectComplaint={setSelectedComplaint}
+    onOpenUpdateModal={setModalComplaint}
+    onRefresh={() => fetchAllData(false)}
+    refreshing={refreshing}
+    lastRefreshed={lastRefreshed}
+    statusFilter={statusFilter}
+    setStatusFilter={setStatusFilter}
+  />
+
+  {selectedComplaint && (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 1000,
+        background: "rgba(15, 23, 42, 0.65)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+        overflowY: "auto",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1100px",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          background: "#ffffff",
+          borderRadius: "16px",
+        }}
+      >
+        <StaffComplaintDetails
+          complaint={selectedComplaint}
+          onBack={() => setSelectedComplaint(null)}
+          onUpdateStatus={handleStatusUpdate}
+        />
+      </div>
+    </div>
+  )}
+</main>
 
       {/* Quick Status Modal */}
       {modalComplaint && (

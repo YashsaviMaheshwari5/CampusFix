@@ -1467,4 +1467,26 @@ button {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+.staff-sidebar-summary .summary-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: transparent;
+  color: inherit;
+  border: none;
+  border-radius: 8px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
+.staff-sidebar-summary .summary-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.staff-sidebar-summary .summary-row strong {
+  color: inherit;
+}
