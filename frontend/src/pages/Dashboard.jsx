@@ -19,7 +19,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
   }, []);
 
   // Logged-in user's name
-  const userName = localStorage.getItem("userName") || "Student";
+ const userName = user?.name || "CampusFix User";
 
 
   // Search complaints
@@ -116,7 +116,7 @@ function Dashboard({ complaints, onSelectComplaint, user }) {
 
           {/* Dynamic Avatar */}
           <div className="profile-avatar">
-            YM
+            {initials}
           </div>
 
 
