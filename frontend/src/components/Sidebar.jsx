@@ -1,3 +1,5 @@
+// Reusable functional component: App se props leta hai (parent -> child), jaise user aur activePage.
+// Event handlers user ke click ko parent callback ke through report karte hain.
 import universityLogo from "../assets/university-logo.png";
 import { getSidebarMenuItems } from "../utils/navigation.js";
 

@@ -1,3 +1,5 @@
+// React functional page: controlled form inputs React state se chalte hain; onSubmit form event handle karta hai.
+// async/await API login/register ka wait karta hai; try/catch/finally error aur loading state manage karte hain.
 import { useState } from "react";
 import universityLogo from "../assets/university-logo.png";
 import { authService } from "../services/authService";

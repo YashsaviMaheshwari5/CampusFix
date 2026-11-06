@@ -1,4 +1,6 @@
 
+// Mongoose MongoDB driver/ODM hai: connectDatabase async network I/O ke zariye configured database se connect karta hai.
+// MongoDB Atlas bhi MongoDB hi hai, bas hosted service; MONGODB_URI se local ya Atlas connection select hota hai.
 import dns from 'node:dns';
 import mongoose from 'mongoose';
 import { env } from './env.js';

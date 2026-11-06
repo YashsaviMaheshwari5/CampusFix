@@ -1,3 +1,5 @@
+// Environment variables deployment-specific config/secrets rakhte hain; dotenv local .env ko process.env me load karta hai.
+// process global Node object hai; JWT secret, database URL, port aur frontend origin yahan se read hote hain.
 import dotenv from 'dotenv';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';

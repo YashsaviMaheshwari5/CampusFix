@@ -1,3 +1,6 @@
+// React page/component: useState UI state rakhta hai; useEffect search/filter badalne par list API se load karta hai.
+// Promise chain: then success, catch error, finally loading cleanup; timeout search requests ko debounce karta hai.
+// onChange event controlled search input ko update karta hai; AbortController purani request cancel karta hai.
 import { useEffect, useState } from "react";
 import { complaintService } from "../services/complaintService";
 

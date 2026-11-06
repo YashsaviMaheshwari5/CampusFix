@@ -1,3 +1,6 @@
+// Frontend API helper: fetch browser ka HTTP client hai; REST methods (GET/POST/PATCH/DELETE) backend routes call karte hain.
+// async/await Promise ke result ka wait karta hai; JSON.stringify request bhejta hai, response.json() reply padhta hai.
+// Error handling network/HTTP failures ko ApiError me badalti hai; AbortSignal request cancel kar sakta hai.
 export const API_BASE_URL = import.meta.env?.VITE_API_URL || 'http://localhost:4000/api';
 
 export class ApiError extends Error {

@@ -1,3 +1,6 @@
+// Reusable React component; props se complaint/role leta hai aur callback se parent ko update batata hai.
+// useState controlled form fields ko manage karta hai; onSubmit event API request start karta hai.
+// async/await Promise ka result wait karta hai; try/catch/finally success, error aur loading handle karte hain.
 import { useState } from 'react';
 import { updateStatusAndRefresh } from '../services/complaintService.js';
 import { canManageComplaints, getAllowedStatusTransitions } from '../utils/complaintStatus.js';

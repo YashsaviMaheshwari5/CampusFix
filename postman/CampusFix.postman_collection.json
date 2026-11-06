@@ -2,7 +2,7 @@
   "info": {
     "name": "CampusFix API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Local CampusFix API collection. Uses cookie-based auth; register or login before protected requests."
+    "description": "Postman API testing collection: requests HTTP endpoints and lets you inspect status, headers, and JSON responses. Uses cookie-based auth; register or login before protected requests. Try CRUD requests with the baseUrl variable."
   },
   "variable": [
     {

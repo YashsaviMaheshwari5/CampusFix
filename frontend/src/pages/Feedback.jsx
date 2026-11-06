@@ -1,3 +1,5 @@
+// Controlled form + API integration: input state React me hoti hai, submit par POST request bheji jati hai.
+// async/await Promise ka wait karta hai; try/catch errors ko UI me dikhate hain.
 import { useEffect, useState } from "react";
 import { apiRequest } from "../services/api";
 

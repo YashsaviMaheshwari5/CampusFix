@@ -1,3 +1,6 @@
+// Controlled React form: state input values rakhti hai aur submit event unhe validate karta hai.
+// FormData multipart data (text + image files) ke liye hai; complaintService ise REST API par POST karta hai.
+// async/await Promise ka wait karta hai; try/catch/finally request outcome/loading handle karte hain.
 import { useState } from "react";
 import { complaintService } from "../services/complaintService";
 

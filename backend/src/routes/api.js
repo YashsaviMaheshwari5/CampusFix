@@ -1,3 +1,6 @@
+// Express routing: HTTP method + URL ko controller se map karna route kehlata hai.
+// REST/CRUD: GET read, POST create, PATCH update, DELETE remove; requireAuth protected routes guard karta hai.
+// asyncRoute Promise rejection ko next() se centralized error middleware tak bhejta hai.
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import { register, login, me, logout, updatePreferences } from '../controllers/authController.js';

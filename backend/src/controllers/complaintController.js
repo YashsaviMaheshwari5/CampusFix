@@ -1,3 +1,7 @@
+// Express controller: req me request data, res response bhejne ke liye, aur next(error) error middleware ke liye hota hai.
+// Mongoose model methods complaint CRUD karte hain; async/await database Promise ka wait karta hai.
+// populate related User details laata hai; fs/path uploads ki cleanup aur safe file serving me kaam aate hain.
+// res.sendFile file ko response me bhejta hai; large file transfer me stream/chunks memory use ko kam rakhte hain.
 import Complaint from '../models/Complaint.js';
 import path from 'node:path';
 import { unlink } from 'node:fs/promises';

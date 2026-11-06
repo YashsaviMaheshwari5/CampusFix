@@ -1,3 +1,9 @@
+// Node.js 2009 me aaya; V8 JavaScript engine use karke browser ke bahar server-side JS chalata hai.
+// Node/V8 runtime par `node src/server.js` chalta hai; `node` bina file ke REPL (interactive JS prompt) kholta hai.
+// async/await, Promise, callbacks aur process signals DB connect, retry aur graceful shutdown handle karte hain.
+// Call stack JS functions chalata hai; event loop async I/O complete hone par callbacks/Promise continuations schedule karta hai.
+// NPM scripts aur Nodemon watcher backend/package.json me hain; Nodemon dev me file change par server restart karta hai.
+// Backend package.json ka `type: module` ES Modules (import/export) enable karta hai; CommonJS require/module.exports alternative hai.
 import mongoose from 'mongoose';
 import process from 'node:process';
 import { app } from './app.js';

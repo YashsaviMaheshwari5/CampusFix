@@ -1,3 +1,5 @@
+// Mongoose User schema/model account fields aur database validation define karta hai; model se CRUD queries chalti hain.
+// passwordHash select:false hai, taaki password ka hash bhi normal queries me by default return na ho.
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({

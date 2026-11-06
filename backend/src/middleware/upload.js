@@ -1,3 +1,6 @@
+// Multer multipart/form-data uploads ko receive karke disk par save karta hai; callback completion/error batata hai.
+// Buffer image ke raw bytes rakhta hai; fs/promises file ko async read/remove karta hai; path filenames sambhalta hai.
+// async/await aur try/catch validation, cleanup aur errors handle karte hain.
 import multer from 'multer';
 import { Buffer } from 'node:buffer';
 import path from 'node:path';

@@ -1,3 +1,6 @@
+// Authentication middleware: cookie ka JWT verify karke valid user/session req par attach karta hai.
+// Protected routes is check ke baad hi controller tak pahunchti hain; allowRoles role-based authorization karta hai.
+// async/await MongoDB lookup ka wait karta hai; next(error) centralized error handler ko failure deta hai.
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Session from '../models/Session.js';

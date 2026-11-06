@@ -1,3 +1,7 @@
+// Express app: Node HTTP requests ka middleware -> route -> response lifecycle yahan configure hota hai.
+// express.json() JSON request body parse karta hai; middleware request inspect/modify ya next() se aage bhejta hai.
+// REST API router, not-found handler aur centralized error middleware yahan mount kiye gaye hain.
+// cors , helmet aur cookie-parser security aur cross-origin requests ke liye; rateLimit brute-force login attempts ko limit karta hai.
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';

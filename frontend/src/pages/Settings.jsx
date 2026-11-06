@@ -1,3 +1,5 @@
+// React form with controlled state: settings save event API ko PATCH bhejta hai.
+// localStorage browser me chhoti preferences ko visits ke beech rakhta hai; JSON.stringify/parse convert karte hain.
 import { useState } from "react";
 import { apiRequest } from "../services/api";
 

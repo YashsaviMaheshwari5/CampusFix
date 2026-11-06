@@ -1,3 +1,5 @@
+// Express error-handling middleware: errors ko consistent HTTP status aur JSON response me badalta hai.
+// Validation, MongoDB, JSON parsing aur Multer upload errors yahan normalize kiye jate hain.
 import multer from 'multer';
 import mongoose from 'mongoose';
 import { AppError } from '../utils/AppError.js';

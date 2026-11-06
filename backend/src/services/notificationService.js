@@ -1,3 +1,5 @@
+// EventEmitter callbacks complaint events par notification save karte hain.
+// async/await aur Promise.all wait karte hain; catch notification failure log karta hai bina request ko unhandled chhode.
 import Notification from '../models/Notification.js';
 import User from '../models/User.js';
 import { appEvents } from '../events/appEvents.js';

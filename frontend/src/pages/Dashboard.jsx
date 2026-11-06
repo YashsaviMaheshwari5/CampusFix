@@ -1,3 +1,6 @@
+// React functional component: props parent se complaints/user laate hain; useState local filters/statistics rakhta hai.
+// useEffect API request chalata hai; Promise then/catch/finally success, failure, loading sambhalte hain.
+// localStorage se browser me pehle save kiya hua userName read hota hai.
 import { useEffect, useState } from "react";
 import { complaintService } from "../services/complaintService";
 

@@ -1,3 +1,5 @@
+// Mongoose schema fields, types, defaults aur validation rules define karta hai; model collection par CRUD operations deta hai.
+// ref fields related document IDs rakhte hain; controller ka populate() un IDs ke selected user details fetch karta hai.
 import mongoose from 'mongoose';
 
 const attachmentSchema = new mongoose.Schema({ filename: String, originalName: String, mimeType: String, size: Number }, { _id: false });

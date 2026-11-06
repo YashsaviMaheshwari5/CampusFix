@@ -1,3 +1,5 @@
+// Auth controller: req.body validation ke baad register/login flow chalata hai aur res JSON/cookie bhejta hai.
+// bcrypt password hash/verify karta hai; JWT session token login ko represent karta hai; async/await DB ka wait karta hai.
 import User from '../models/User.js';
 import Session from '../models/Session.js';
 import { env } from '../config/env.js';

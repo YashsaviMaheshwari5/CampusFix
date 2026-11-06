@@ -1,3 +1,5 @@
+// REST API consumption: helper methods complaint resource ko GET/POST/PATCH/DELETE se access karte hain.
+// Promise chaining/async-await multiple network steps ko sequence me chalate hain; catch refresh failure sambhalta hai.
 import { apiRequest } from './api.js';
 export const complaintService = {
   list: (params = {}, signal) => { const query = new URLSearchParams(Object.entries(params).filter(([, value]) => value)); return apiRequest(`/complaints${query.size ? `?${query}` : ''}`, { signal }); },
